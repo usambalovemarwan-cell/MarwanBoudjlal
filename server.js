@@ -81,12 +81,11 @@ wss.on("connection", ws => {
         setTimeout(() => {
           if (done) room.score = [0, 0];
           if (room.players.length !== 2) return;
-          if (done) {
-            room.arena = (room.arena + 1 + rnd(ARENAS - 1)) % ARENAS;
-            room.ready = [false, false];
-            room.players.forEach(p => send(p, { t: "arena", i: room.arena }));
-          } else startRound(room);
-        }, done ? 3000 : 1500);
+          // ساحة جديدة بعد كل نقطة (فوز أو خسارة)، والنتيجة تبقى حتى 5
+          room.arena = (room.arena + 1 + rnd(ARENAS - 1)) % ARENAS;
+          room.ready = [false, false];
+          room.players.forEach(p => send(p, { t: "arena", i: room.arena }));
+        }, done ? 3000 : 1800);
         break;
       }
     }
